@@ -1,8 +1,10 @@
 package com.example.rest.web;
 
 import com.example.rest.checklist.CheckList;
-import com.example.rest.exceptions.CheckListNotFoundException;
 import com.example.rest.checklist.CheckListService;
+import com.example.rest.exceptions.CheckListNotFoundException;
+import com.example.rest.security.CurrentUser;
+import com.example.rest.user.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,32 +25,39 @@ public class CheckListController {
 
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
-    public List<CheckListSummary> getAll() {
-        return service.getAllCheckLists();
+    public List<CheckListSummary> getAll(@CurrentUser User user) {
+        return service.getAllCheckListsByOwner(user.getId());
     }
 
     @GetMapping("find/{id}")
     @ResponseStatus(HttpStatus.OK)
     public CheckList getCheckList(@PathVariable Long id) {
-        System.out.println();
         return service.getCheckListById(id);
     }
 
     @PostMapping("update")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseMessage updateCheckList(@RequestBody CheckList list) {
+    public ResponseMessage updateCheckList(@RequestBody CheckList list, @CurrentUser User user) {
         if (list == null || list.getId() == null) {
             return new ResponseMessage("Cannot update list", "No ID found");
         }
+        if (user == null || user.getId() == null) {
+            return new ResponseMessage("Invalid user", "No ID found");
+        }
+        list.setOwner(user);
         service.saveCheckList(list);
-        return new ResponseMessage(list.getTitle() + " Saved", "");
+        String.format("List ID: %d, %s, has been updated", list.getId(), list.getTitle());
+        return new ResponseMessage(String.format("List ID: %d, %s, has been updated", list.getId(), list.getTitle()), "");
     }
 
     @PostMapping("new")
     @ResponseStatus(HttpStatus.CREATED)
-    public CheckList newCheckList(@RequestBody CheckList list) {
+    public CheckList newCheckList(@RequestBody CheckList list, @CurrentUser User user) {
         if (list == null) {
             throw new IllegalArgumentException("Checklist data is not readable");
+        }
+        if(user == null) {
+            list.setOwner(user);
         }
         service.createCheckList(list);
         return list;
