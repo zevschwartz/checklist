@@ -1,5 +1,6 @@
-package com.example.checklist;
+package com.example.rest.checklist;
 
+import com.example.rest.user.User;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -35,8 +36,8 @@ public class CheckList {
     private List<CheckListItem> checkListItems;
 
     @CreatedBy
-    @Column(insertable = true, updatable = false)
-    private String owner;
+    @OneToOne
+    private User owner;
 
     @CreatedDate
     @Column(insertable = true, updatable = false)
@@ -46,7 +47,8 @@ public class CheckList {
     private LocalDateTime lastModifiedOn;
 
     @LastModifiedBy
-    private String lastModifiedBy;
+    @OneToOne
+    private User lastModifiedBy;
 
 
     protected CheckList() {
@@ -110,19 +112,19 @@ public class CheckList {
         this.lastModifiedOn = lastModifiedOn;
     }
 
-    public String getOwner() {
+    public User getOwner() {
         return owner;
     }
 
-    public void setOwner(String owner) {
+    public void setOwner(User owner) {
         this.owner = owner;
     }
 
-    public String getLastModifiedBy() {
+    public User getLastModifiedBy() {
         return lastModifiedBy;
     }
 
-    public void setLastModifiedBy(String lastModifiedBy) {
+    public void setLastModifiedBy(User lastModifiedBy) {
         this.lastModifiedBy = lastModifiedBy;
     }
 

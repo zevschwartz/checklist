@@ -1,7 +1,7 @@
-package com.example.checklist;
+package com.example.rest.checklist;
 
-import com.example.checklist.web.CheckListSummary;
-import com.example.checklist.exceptions.CheckListNotFoundException;
+import com.example.rest.web.CheckListSummary;
+import com.example.rest.exceptions.CheckListNotFoundException;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -16,9 +16,9 @@ import java.util.List;
 @Transactional
 public class CheckListService {
 
-    private CheckListRepo repo;
+    private CheckListRepository repo;
 
-    public CheckListService(CheckListRepo repo) {
+    public CheckListService(CheckListRepository repo) {
         this.repo = repo;
     }
 
