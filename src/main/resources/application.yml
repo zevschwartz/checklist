@@ -1,0 +1,8 @@
+
+spring:
+  jpa:
+    generate-ddl: true
+  jackson:
+    date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
+debug: true
+

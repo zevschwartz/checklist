@@ -1,8 +1,9 @@
-package com.example.checklist.config;
+package com.example.rest.config;
 
-import com.example.checklist.CheckListRepo;
-import com.example.checklist.CheckList;
-import com.example.checklist.CheckListItem;
+import com.example.rest.checklist.CheckListRepository;
+import com.example.rest.checklist.CheckList;
+import com.example.rest.checklist.CheckListItem;
+import com.example.rest.user.User;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -16,9 +17,9 @@ import java.util.stream.Stream;
 @Component
 public class ChecklistApplicationInitializer implements CommandLineRunner {
 
-    CheckListRepo listRepo;
+    CheckListRepository listRepo;
 
-    public ChecklistApplicationInitializer(CheckListRepo listRepo) {
+    public ChecklistApplicationInitializer(CheckListRepository listRepo) {
         this.listRepo = listRepo;
     }
 
@@ -27,7 +28,7 @@ public class ChecklistApplicationInitializer implements CommandLineRunner {
         List<CheckList> lists = Stream.of("first list", "second list", "3rd list")
                 .map(s -> new CheckList(s))
                 .peek(s -> s.addCheckListItem(new CheckListItem(null, "Hello from " + s.getTitle(), false)))
-                .peek(s -> s.setOwner("cz"))
+                .peek(s -> s.setOwner(new User(0l)))
                 .collect(Collectors.toList());
 
         listRepo.save(lists);

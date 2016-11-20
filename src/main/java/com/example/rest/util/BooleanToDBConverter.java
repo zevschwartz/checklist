@@ -1,4 +1,4 @@
-package com.example.checklist.db.utils;
+package com.example.rest.util;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;

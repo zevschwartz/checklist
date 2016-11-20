@@ -1,6 +1,6 @@
-package com.example.checklist;
+package com.example.rest.checklist;
 
-import com.example.checklist.db.utils.BooleanToDBConverter;
+import com.example.rest.util.BooleanToDBConverter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;

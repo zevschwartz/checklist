@@ -1,8 +1,8 @@
-package com.example.checklist.web;
+package com.example.rest.web;
 
-import com.example.checklist.CheckList;
-import com.example.checklist.exceptions.CheckListNotFoundException;
-import com.example.checklist.CheckListService;
+import com.example.rest.checklist.CheckList;
+import com.example.rest.exceptions.CheckListNotFoundException;
+import com.example.rest.checklist.CheckListService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +30,7 @@ public class CheckListController {
     @GetMapping("find/{id}")
     @ResponseStatus(HttpStatus.OK)
     public CheckList getCheckList(@PathVariable Long id) {
+        System.out.println();
         return service.getCheckListById(id);
     }
 

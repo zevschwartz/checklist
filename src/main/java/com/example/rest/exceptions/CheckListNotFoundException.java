@@ -1,4 +1,4 @@
-package com.example.checklist.exceptions;
+package com.example.rest.exceptions;
 
 /**
  * Created by czrif on 11/13/2016.
