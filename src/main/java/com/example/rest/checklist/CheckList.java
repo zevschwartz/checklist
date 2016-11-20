@@ -2,6 +2,7 @@ package com.example.rest.checklist;
 
 import com.example.rest.user.User;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -28,12 +29,13 @@ public class CheckList {
     private Long id;
 
     @NotNull
-    @Size(min = 4, max = 40)
+    @Size(min = 4, max = 40, message = "title must have between 4 and 40 characters")
     private String title;
 
     @OrderColumn(name = "sort")
-    @OneToMany(mappedBy = "checkList", cascade = CascadeType.ALL)
-    private List<CheckListItem> checkListItems;
+    @OneToMany(orphanRemoval = true, mappedBy = "checkList", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private List<Task> checkListItems;
 
     @CreatedBy
     @OneToOne
@@ -49,7 +51,6 @@ public class CheckList {
     @LastModifiedBy
     @OneToOne
     private User lastModifiedBy;
-
 
     protected CheckList() {
     }
@@ -79,16 +80,16 @@ public class CheckList {
         this.title = title;
     }
 
-    public List<CheckListItem> getCheckListItems() {
+    public List<Task> getCheckListItems() {
         return checkListItems;
     }
 
-    public void setCheckListItems(List<CheckListItem> checkListItems) {
+    public void setCheckListItems(List<Task> checkListItems) {
         checkListItems.forEach(i -> i.setCheckList(this));
         this.checkListItems = checkListItems;
     }
 
-    public void addCheckListItem(CheckListItem checkListItem) {
+    public void addCheckListItem(Task checkListItem) {
         if (checkListItems == null) {
             checkListItems = new ArrayList<>();
         }
