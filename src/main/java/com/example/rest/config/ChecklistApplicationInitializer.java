@@ -1,8 +1,8 @@
 package com.example.rest.config;
 
 import com.example.rest.checklist.CheckList;
-import com.example.rest.checklist.Task;
 import com.example.rest.checklist.CheckListRepository;
+import com.example.rest.checklist.Task;
 import com.example.rest.user.User;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.core.Authentication;
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -68,7 +69,9 @@ public class ChecklistApplicationInitializer implements CommandLineRunner {
         List<CheckList> lists = Stream.of("first list", "second list", "3rd list")
                 .map(s -> new CheckList(s))
                 .peek(s -> s.addCheckListItem(new Task(null, "Hello from " + s.getTitle(), false)))
-                .peek(s -> s.setOwner(new User(0l)))
+                .peek(s -> s.setOwner(new User(ThreadLocalRandom.current().nextLong(0,4
+
+                ))))
                 .collect(Collectors.toList());
 
         listRepo.save(lists);

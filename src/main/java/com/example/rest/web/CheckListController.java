@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by czrif on 11/8/2016.
@@ -26,7 +27,11 @@ public class CheckListController {
     @GetMapping("")
     @ResponseStatus(HttpStatus.OK)
     public List<CheckListSummary> getAll(@CurrentUser User user) {
-        return service.getAllCheckListsByOwner(user.getId());
+        return service
+                .getAllCheckListsByOwner(user.getId())
+                .stream()
+                .map(c -> new CheckListSummary(c))
+                .collect(Collectors.toList());
     }
 
     @GetMapping("find/{id}")
@@ -56,7 +61,7 @@ public class CheckListController {
         if (list == null) {
             throw new IllegalArgumentException("Checklist data is not readable");
         }
-        if(user == null) {
+        if (user == null) {
             list.setOwner(user);
         }
         service.createCheckList(list);

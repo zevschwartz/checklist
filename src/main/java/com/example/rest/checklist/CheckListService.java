@@ -2,7 +2,6 @@ package com.example.rest.checklist;
 
 import com.example.rest.exceptions.CheckListNotFoundException;
 import com.example.rest.security.ReadableChecklist;
-import com.example.rest.web.CheckListSummary;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,13 +21,8 @@ public class CheckListService {
         this.repo = repo;
     }
 
-    public List<CheckListSummary> getAllCheckLists() {
-        List<CheckListSummary> checklists = repo.findAllBy();
-        return checklists;
-    }
-
-    public List<CheckListSummary> getAllCheckListsByOwner(Long userid) {
-        List<CheckListSummary> checklists = repo.findAllByOwner(userid);
+    public List<CheckList> getAllCheckListsByOwner(Long userid) {
+        List<CheckList> checklists = repo.findAllByOwner(userid);
         return checklists;
     }
 

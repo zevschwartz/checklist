@@ -13,6 +13,6 @@ import java.util.List;
 public interface CheckListRepository extends JpaRepository<CheckList, Long> {
 
     @Query("select c from CheckList c where c.owner.id = :userid")
-    List<CheckListSummary> findAllByOwner(@Param("userid") Long userid);
+    List<CheckList> findAllByOwner(@Param("userid") Long userid);
 
 }

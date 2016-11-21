@@ -5,6 +5,8 @@ import org.springframework.data.domain.AuditorAware;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 /**
  * Created by czrif on 11/10/2016.
  */
@@ -17,6 +19,6 @@ public class SpringSecurityAuditorAware implements AuditorAware<User> {
         if (authentication != null) {
             user = (User) authentication.getPrincipal();
         }
-        return user == null ? new User(0l): user;
+        return user == null ? new User(ThreadLocalRandom.current().nextLong(0, 3)): user;
     }
 }
