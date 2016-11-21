@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 /**
@@ -20,6 +21,7 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableJpaAuditing
+@EnableResourceServer
 public class ChecklistApplicationConfigurer extends WebSecurityConfigurerAdapter {
 
     @Override
@@ -34,6 +36,7 @@ public class ChecklistApplicationConfigurer extends WebSecurityConfigurerAdapter
                 .and()
             .formLogin()
                 .loginPage("/").permitAll()
+                .and()
             ;
     }
 
@@ -46,4 +49,5 @@ public class ChecklistApplicationConfigurer extends WebSecurityConfigurerAdapter
     public AuditorAware<User> auditorProvider() {
         return new SpringSecurityAuditorAware();
     }
+
 }
